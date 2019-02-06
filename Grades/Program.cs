@@ -28,3 +28,8 @@ namespace Grades
         }
     }
 }
+
+// Create structs when representing a single value (Ex. points on graph, currency, DateTime, etc)
+// Structss should be small
+
+// Use enums for named constants
