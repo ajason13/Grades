@@ -8,7 +8,11 @@ namespace Grades
 {
     public class GradeBook
     {
+        // Private members -> lowercase letter
         List<float> grades;
+
+        // Public member -> uppercase letter
+        public string Name;
 
         // ctor + 2x tab = constructor
         public GradeBook()
