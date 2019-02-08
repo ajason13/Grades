@@ -12,7 +12,26 @@ namespace Grades
         List<float> grades;
 
         // Public member -> uppercase letter
-        public string Name;
+        // If serializing property (Ex. XML, JSON, etc), some frameworks only look at properties instead of fields
+        // Databinding only looks at Properties
+        // Make public fields into Properties with uppercase first letter
+        //public string Name { get; set; }
+        public string Name
+        {
+            get
+            {
+                return _name;
+            }
+            set
+            {
+                if (!String.IsNullOrEmpty(value))
+                {
+                    _name = value;
+                }
+            }
+        }
+
+        private string _name;
 
         // ctor + 2x tab = constructor
         public GradeBook()

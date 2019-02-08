@@ -13,6 +13,38 @@ namespace Grades.Test.Types
     public class ReferenceTypeTests
     {
         [TestMethod]
+        public void UsingArrays()
+        {
+            float[] grades = new float[3];
+            AddGrades(grades);
+
+            Assert.AreEqual(89.1f, grades[1]);
+        }
+
+        private void AddGrades(float[] grades)
+        {
+            grades[1] = 89.1f;
+        }
+
+        [TestMethod]
+        public void UppercaseString()
+        {
+            string name = "scott";
+            name = name.ToUpper();
+
+            Assert.AreEqual("SCOTT", name);
+        }
+
+        [TestMethod]
+        public void AddDaysToDateTime()
+        {
+            DateTime date = new DateTime(2015, 1, 1);
+            date = date.AddDays(1);
+
+            Assert.AreEqual(2, date.Day);
+        }
+
+        [TestMethod]
         public void GradeBookVariablesHoldsAReference()
         {
             // F12 to go to source code of something (Ex. Gradebook goes to Gradebook.cs)
