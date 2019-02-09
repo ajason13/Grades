@@ -16,6 +16,7 @@ namespace Grades
         // Databinding only looks at Properties
         // Make public fields into Properties with uppercase first letter
         //public string Name { get; set; }
+        private string _name;
         public string Name
         {
             get
@@ -26,16 +27,22 @@ namespace Grades
             {
                 if (!String.IsNullOrEmpty(value))
                 {
+                    if(_name != value)
+                    {
+                        NameChanged(_name, value);
+                    }
+
                     _name = value;
                 }
             }
         }
 
-        private string _name;
+        public event NameChangedDelegate NameChanged;
 
         // ctor + 2x tab = constructor
         public GradeBook()
         {
+            _name = "Empty";
             grades = new List<float>();
         }
 

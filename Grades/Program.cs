@@ -11,12 +11,25 @@ namespace Grades
     {
         static void Main(string[] args)
         {
+            // Need this in all my programs now. Probably run in async tho
+            /*
             SpeechSynthesizer synth = new SpeechSynthesizer();
             synth.Speak("Hello! This is the grade book program");
+            */
 
             GradeBook book = new GradeBook();
+
+            // Since book.NameChanged has event keyword, no need for new NameChangedDelegate();
+            //book.NameChanged += new NameChangedDelegate(OnNameChanged);
+            //book.NameChanged += new NameChangedDelegate(OnNameChanged2);
+
+            // Bit confusing unless you know C#. -____-
+            book.NameChanged += OnNameChanged;
+            book.NameChanged += OnNameChanged2;
+
             book.Name = "Grade Book";
-            book.Name = null;
+            book.Name = "Bob's Grade Book";
+
             book.AddGrade(91);
             book.AddGrade(89.5f);
             book.AddGrade(75);
@@ -29,6 +42,16 @@ namespace Grades
             WriteResult("Highest", (int) stats.AverageGrade);
             //WriteResult("Lowest", (int) stats.LowestGrade, 2, 3, 4);
             WriteResult("Lowest", stats.LowestGrade);
+        }
+
+        static void OnNameChanged(string existingName, string newName)
+        {
+            Console.WriteLine($"Grade book changing name from {existingName} to {newName}");
+        }
+
+        static void OnNameChanged2(string existingName, string newName)
+        {
+            Console.WriteLine("***");
         }
 
         static void WriteResult(string description, int result)
@@ -73,3 +96,22 @@ namespace Grades
 // Events
 // - Send notifications to other classes or objects
 // - Publisher raises event and subscriber(s) process event
+
+// Delegates
+// - Variable that reference a method
+// - Can concatenate multiple methods into delegate using '+='
+// - Can remove methods into delegate using '-='
+// - Good use is for when a variable changes, execute a method.
+// - Good use for buttons
+// - Good use for building UI
+// - Ex. public delegate void Writer(string message);
+// -     ...
+// -     Logger logger = new Logger();
+// -     Writer writer = new Writer(logger.WriteMessage);   // WriteMessage is a method.
+// -     writer("Success!!");                               // Can only pass method that'll return same type as delegate and pass same parameter type as delegate
+
+// Back to Events
+// - Events based on delegates
+// - Add event keyword to instanced delegate
+// - This allows delegates to not be null or be reassigned. Only add/remove deletegates/subscribers
+// - When instanced delegate is event, then dont need to instantiate delegate in program.
