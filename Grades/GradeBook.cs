@@ -1,43 +1,22 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace Grades
 {
-    public class GradeBook
+    public class GradeBook : GradeTracker
     {
-        // Private members -> lowercase letter
-        List<float> grades;
-
-        // Public member -> uppercase letter
-        // If serializing property (Ex. XML, JSON, etc), some frameworks only look at properties instead of fields
-        // Databinding only looks at Properties
-        // Make public fields into Properties with uppercase first letter
-        //public string Name { get; set; }
-        private string _name;
-        public string Name
+        // Private/Protected members -> lowercase letter
+        // Protected allows access in derived class
+        protected List<float> grades;
+        public override IEnumerator GetEnumerator()
         {
-            get
-            {
-                return _name;
-            }
-            set
-            {
-                if (!String.IsNullOrEmpty(value))
-                {
-                    if(_name != value)
-                    {
-                        NameChanged(_name, value);
-                    }
-
-                    _name = value;
-                }
-            }
+            return grades.GetEnumerator();
         }
-
-        public event NameChangedDelegate NameChanged;
 
         // ctor + 2x tab = constructor
         public GradeBook()
@@ -46,12 +25,28 @@ namespace Grades
             grades = new List<float>();
         }
 
-        public void AddGrade(float grade)
+        // Since out is reserve keyword, VS used @ symbol. @ used for names that use keywords [AVOID]
+        //public void WriteGrade(TextWriter @out)
+
+        // TextWriter can write out to Console, File, Network, etc)
+        public override void WriteGrade(TextWriter destination)
+        {
+            // for + 2x Tab = for loop
+            for (int i = 0; i < grades.Count; i++)
+            {
+                destination.WriteLine(grades[i]);
+            }
+        }
+        
+        public override void AddGrade(float grade)
         {
             grades.Add(grade);
         }
 
-        public GradeStatistics ComputeStatistics()
+        // Program will now see which object is created at runtime to decide on which ComputeStatistics to use
+        //public virtual GradeStatistics ComputeStatistics()
+        // Since GradeTracker has abstract ComputeStatistics, need to use override keyword
+        public override GradeStatistics ComputeStatistics()
         {
             GradeStatistics stats = new GradeStatistics();
 
